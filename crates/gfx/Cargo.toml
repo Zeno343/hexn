@@ -1,0 +1,13 @@
+[package]
+name = "gfx"
+version = "0.0.1"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+win = { path = "../win" }
+math = { path = "../math" }
+
+[build-dependencies]
+bindgen = "^0.64.0"
