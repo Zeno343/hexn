@@ -12,9 +12,9 @@ mod no_std;
 
 #[cfg(not(feature = "std"))]
 extern crate alloc;
-extern crate gfx;
-extern crate math;
-extern crate win;
+extern crate hex_gfx as gfx;
+extern crate hex_math as math;
+extern crate hex_win as win;
 
 #[cfg(not(feature = "std"))]
 use {alloc::vec::Vec, math::num::Real};

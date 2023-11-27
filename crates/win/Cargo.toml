@@ -1,7 +1,7 @@
 [package]
-name = "win"
+name = "hex_win"
 version = "0.0.1"
 edition = "2021"
 
 [build-dependencies]
-bindgen = "^0.64"
+bindgen = "^0.69.1"

@@ -1,13 +1,11 @@
 [package]
-name = "gfx"
+name = "hex_gfx"
 version = "0.0.1"
 edition = "2021"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [dependencies]
-win = { path = "../win" }
-math = { path = "../math" }
+hex_win = { path = "../win", version = "0.0.1" }
+hex_math = { path = "../math", version = "0.0.1" }
 
 [build-dependencies]
-bindgen = "^0.64.0"
+bindgen = "^0.69.1"

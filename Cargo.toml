@@ -3,9 +3,9 @@ name = "hexen"
 version = "0.0.1"
 
 [dependencies]
-win = { path = "crates/win", version = "0.0.1" }
-gfx = { path = "crates/gfx", version = "0.0.1" }
-math = { path = "crates/math", version = "0.0.1" }
+hex_win = { path = "crates/win", version = "0.0.1" }
+hex_gfx = { path = "crates/gfx", version = "0.0.1" }
+hex_math = { path = "crates/math", version = "0.0.1" }
 
 [workspace]
 members = [ "crates/math", "crates/gfx", "crates/win" ]
