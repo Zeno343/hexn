@@ -1,7 +1,10 @@
 [package]
 name = "hex_win"
 version = "0.0.1"
-edition = "2021"
+description = "Window library for hexen"
+authors = [ "Zeno <zacheryklinglesmith@gmail.com" ]
+repository = "https://github.com/Zeno343/hexen.git"
+license = "MIT"
 
 [build-dependencies]
 bindgen = "^0.69.1"
