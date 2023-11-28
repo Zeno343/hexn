@@ -53,7 +53,7 @@
   in {
     packages.${system}.default = hexen;
 
-    devShells.default = craneLib.devShell {
+    devShells.${system}.default = craneLib.devShell {
       inputsFrom = [ hexen ];
     };
   };
