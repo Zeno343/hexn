@@ -1,4 +1,4 @@
-name: "Nix Test"
+name: "Build from flake.nix"
 on:
   pull_request:
   push:
@@ -10,5 +10,6 @@ jobs:
     - uses: cachix/install-nix-action@v22
       with:
         github_access_token: ${{ secrets.GITHUB_TOKEN }}
-    - run: nix build
     - run: nix flake check
+    - name: "Build devShell"
+      run: nix build .#devShells.x86_64-linux.default
