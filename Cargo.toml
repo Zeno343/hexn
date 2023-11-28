@@ -1,0 +1,27 @@
+[package]
+name = "hexen"
+description = "A demo engine in Rust"
+version = "0.0.1"
+authors = [ "Zeno <zacheryklinglesmith@gmail.com" ]
+repository = "https://github.com/Zeno343/hexen.git"
+license = "MIT"
+
+[dependencies]
+hex_win = { path = "crates/win", version = "^0.0.1" }
+hex_gfx = { path = "crates/gfx", version = "^0.0.1" }
+hex_math = { path = "crates/math", version = "^0.0.1" }
+
+[workspace]
+members = [ "crates/math", "crates/gfx", "crates/win" ]
+resolver = "2"
+
+[features]
+std = []
+
+[profile.release]
+panic = "abort"
+lto = true
+opt-level = "z"
+
+[profile.dev]
+incremental = true

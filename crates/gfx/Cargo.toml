@@ -1,0 +1,14 @@
+[package]
+name = "hex_gfx"
+description = "Graphics for hexen"
+version = "0.0.1"
+authors = [ "Zeno <zacheryklinglesmith@gmail.com" ]
+repository = "https://github.com/Zeno343/hexen.git"
+license = "MIT"
+
+[dependencies]
+hex_win = { path = "../win", version = "^0.0.1" }
+hex_math = { path = "../math", version = "^0.0.1" }
+
+[build-dependencies]
+bindgen = "^0.69.1"
