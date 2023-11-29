@@ -13,18 +13,20 @@ pub type MeshId = GLuint;
 #[derive(Debug)]
 pub struct Mesh {
     id: MeshId,
+    primitives: GLenum,
     arrays: Vec<Buffer>,
     idcs: Option<Buffer>,
 }
 
 impl Mesh {
-    pub fn new() -> Self {
+    pub fn new(prims: Primitive) -> Self {
         unsafe {
             let mut id = 0;
             glGenVertexArrays(1, &mut id);
 
             Self {
                 id,
+                primitives: prims as GLenum,
                 arrays: Vec::new(),
                 idcs: None,
             }
@@ -64,41 +66,40 @@ impl Mesh {
         self
     }
 
-    pub fn draw_idx(&self, topo: Topology, idcs: Option<&[u32]>) {
+    pub fn draw(&self, idcs: Option<&[u32]>) {
         self.bind();
         unsafe {
             if let Some(idcs) = idcs {
                 glDrawElements(
-                    topo as GLenum,
+                    self.primitives,
                     idcs.len() as GLint,
                     GL_UNSIGNED_INT,
                     idcs.as_ptr() as *const GLvoid,
                 );
-            } else {
+            } else if let Some(idcs) = &self.idcs {
                 glDrawElements(
-                    topo as GLenum,
-                    match &self.idcs {
-                        Some(idcs) => idcs.len(),
-                        None => 0,
-                    } as GLint,
+                    self.primitives,
+                    idcs.len() as GLint,
                     GL_UNSIGNED_INT,
                     ptr::null() as *const GLvoid,
                 );
+            } else {
+                self.draw_array();
             }
         }
     }
 
-    pub fn draw(&self, topo: Topology) {
+    fn draw_array(&self) {
         self.bind();
         unsafe {
-            glDrawArrays(topo as GLenum, 0, self.arrays[0].len() as GLint);
+            glDrawArrays(self.primitives, 0, self.arrays[0].len() as GLint);
         }
     }
 }
 
 #[repr(u32)]
 #[derive(Clone, Copy)]
-pub enum Topology {
+pub enum Primitive {
     Triangles = GL_TRIANGLES,
     TriFan = GL_TRIANGLE_FAN,
     TriStrip = GL_TRIANGLE_STRIP,

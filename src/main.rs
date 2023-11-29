@@ -21,7 +21,7 @@ use {alloc::vec::Vec, math::num::Real};
 use {
     gfx::{
         glsl,
-        mesh::{Mesh, Topology},
+        mesh::{Mesh, Primitive},
         program::Program,
         uniform::Uniform,
         Draw,
@@ -82,8 +82,8 @@ fn main() {
         }
     }
 
-    let grid = Mesh::new().with_array(lattice).with_idcs(&idcs);
-    let frame = Mesh::new().with_array(&[ORIGIN, X, Y, Z]);
+    let grid = Mesh::new(Primitive::Lines).with_array(lattice).with_idcs(&idcs);
+    let frame = Mesh::new(Primitive::Lines).with_array(&[ORIGIN, X, Y, Z]);
 
     let projs = {
         let aspect = WINDOW_RES[1] as f32 / WINDOW_RES[0] as f32;
@@ -125,16 +125,16 @@ fn main() {
         projs[current_proj].bind(1);
 
         WHITE.bind(2);
-        grid.draw_idx(Topology::Lines, None);
+        grid.draw(None);
 
         RED.bind(2);
-        frame.draw_idx(Topology::Lines, Some(&[0, 1]));
+        frame.draw(Some(&[0, 1]));
 
         GREEN.bind(2);
-        frame.draw_idx(Topology::Lines, Some(&[0, 2]));
+        frame.draw(Some(&[0, 2]));
 
         BLUE.bind(2);
-        frame.draw_idx(Topology::Lines, Some(&[0, 3]));
+        frame.draw(Some(&[0, 3]));
 
         window.swap();
         window.delay(1);
