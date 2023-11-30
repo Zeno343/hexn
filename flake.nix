@@ -54,6 +54,8 @@
     packages.${system}.default = hexen;
 
     devShells.${system}.default = craneLib.devShell {
+      LIBCLANG_PATH = "${pkgs.llvmPackages_15.libclang.lib}/lib";
+      name = "hexen";
       inputsFrom = [ hexen ];
     };
   };
