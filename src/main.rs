@@ -21,7 +21,7 @@ use {alloc::vec::Vec, math::num::Real};
 use {
     gfx::{
         glsl,
-        mesh::{Mesh, Primitive},
+        mesh::{Mesh, Primitive as MeshPrim},
         program::Program,
         uniform::Uniform,
         Draw,
@@ -31,6 +31,7 @@ use {
             pos::{ORIGIN, X, Y, Z},
             rgb::{BLACK, BLUE, GREEN, RED, WHITE},
         },
+        geometry::Primitive as GeoPrim,
         matrix::{look_at, orthographic, perspective},
         vector::{span, R3},
     },
@@ -82,8 +83,14 @@ fn main() {
         }
     }
 
-    let grid = Mesh::new(Primitive::Lines).with_array(lattice).with_idcs(&idcs);
-    let frame = Mesh::new(Primitive::Lines).with_array(&[ORIGIN, X, Y, Z]);
+    let grid = Mesh::new(MeshPrim::Lines)
+        .with_array(lattice)
+        .with_idcs(&idcs);
+    let axes = [
+        Mesh::from(GeoPrim::Line(ORIGIN, X)),
+        Mesh::from(GeoPrim::Line(ORIGIN, Y)),
+        Mesh::from(GeoPrim::Line(ORIGIN, Z)),
+    ];
 
     let projs = {
         let aspect = WINDOW_RES[1] as f32 / WINDOW_RES[0] as f32;
@@ -128,13 +135,13 @@ fn main() {
         grid.draw(None);
 
         RED.bind(2);
-        frame.draw(Some(&[0, 1]));
+        axes[0].draw(None);
 
         GREEN.bind(2);
-        frame.draw(Some(&[0, 2]));
+        axes[1].draw(None);
 
         BLUE.bind(2);
-        frame.draw(Some(&[0, 3]));
+        axes[2].draw(None);
 
         window.swap();
         window.delay(1);

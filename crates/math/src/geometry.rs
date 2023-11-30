@@ -1,3 +1,5 @@
+use vector::R3;
+
 pub enum Primitive {
-    Line([f32; 3], [f32; 3]),
+    Line(R3, R3),
 }

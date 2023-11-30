@@ -6,6 +6,7 @@ use {
     },
     alloc::vec::Vec,
     core::ptr,
+    math::geometry::Primitive as GeoPrim,
 };
 
 pub type MeshId = GLuint;
@@ -93,6 +94,14 @@ impl Mesh {
         self.bind();
         unsafe {
             glDrawArrays(self.primitives, 0, self.arrays[0].len() as GLint);
+        }
+    }
+}
+
+impl From<GeoPrim> for Mesh {
+    fn from(geo: GeoPrim) -> Self {
+        match geo {
+            GeoPrim::Line(a, b) => Mesh::new(Primitive::Lines).with_array(&[a, b]),
         }
     }
 }
