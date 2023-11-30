@@ -1,6 +1,5 @@
 name: "Build From Flake"
 on:
-  pull_request:
   push:
 jobs:
   build:
@@ -12,5 +11,5 @@ jobs:
         github_access_token: ${{ secrets.GITHUB_TOKEN }}
     - name: "Check flake"
       run: nix flake check
-    - name: "Build devShell"
-      run: nix build .#devShells.x86_64-linux.default
+    - name: "Build CI dependencies"
+      run: nix build .#ci
