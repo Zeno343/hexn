@@ -19,20 +19,15 @@ extern crate hex_win as win;
 #[cfg(not(feature = "std"))]
 use {alloc::vec::Vec, math::num::Real};
 use {
-    gfx::{
-        glsl,
-        mesh::{Mesh, Topology},
-        program::Program,
-        uniform::Uniform,
-        Draw,
-    },
+    gfx::{glsl, mesh::Mesh, program::Program, uniform::Uniform, Draw},
     math::{
         constants::{
             pos::{ORIGIN, X, Y, Z},
             rgb::{BLACK, BLUE, GREEN, RED, WHITE},
         },
+        geometry::Primitive as GeoPrim,
         matrix::{look_at, orthographic, perspective},
-        vector::{span, R3},
+        vector::R3,
     },
     win::{
         event::{KeyCode, WindowEvent},
@@ -54,36 +49,29 @@ fn main() {
     #[cfg(feature = "std")]
     println!("hexen v0.0.1");
     let window = Window::new(WINDOW_NAME, WINDOW_RES).expect("window creation failed");
-
     let shader = Program::new(MVP, RGB).unwrap();
 
-    let half_w = 5u32;
-    let lattice = &span([X, Z], half_w);
+    let grid: Vec<Mesh> = (-5..=5)
+        .map(|z| {
+            let a = X * 5.0 + Z * z as f32;
+            let b = X * -5.0 + Z * z as f32;
 
-    let w = 1 + 2 * half_w;
-    let mut idcs = Vec::with_capacity(w.pow(2) as usize);
-    for u in 0..w {
-        for v in 0..w {
-            if u < w - 1 {
-                let u0 = u;
-                let u1 = u0 + 1;
+            GeoPrim::Line(a, b)
+        })
+        .chain((-5..=5).map(|x| {
+            let a = Z * 5.0 + X * x as f32;
+            let b = Z * -5.0 + X * x as f32;
 
-                idcs.push(u0 * w + v);
-                idcs.push(u1 * w + v);
-            }
+            GeoPrim::Line(a, b)
+        }))
+        .map(|line| Mesh::from(line))
+        .collect();
 
-            if v < w - 1 {
-                let v0 = v;
-                let v1 = v0 + 1;
-
-                idcs.push(u * w + v0);
-                idcs.push(u * w + v1);
-            }
-        }
-    }
-
-    let grid = Mesh::new().with_array(lattice).with_idcs(&idcs);
-    let frame = Mesh::new().with_array(&[ORIGIN, X, Y, Z]);
+    let axes = [
+        Mesh::from(GeoPrim::Line(ORIGIN, X)),
+        Mesh::from(GeoPrim::Line(ORIGIN, Y)),
+        Mesh::from(GeoPrim::Line(ORIGIN, Z)),
+    ];
 
     let projs = {
         let aspect = WINDOW_RES[1] as f32 / WINDOW_RES[0] as f32;
@@ -125,16 +113,18 @@ fn main() {
         projs[current_proj].bind(1);
 
         WHITE.bind(2);
-        grid.draw_idx(Topology::Lines, None);
+        for line in &grid {
+            line.draw(None);
+        }
 
         RED.bind(2);
-        frame.draw_idx(Topology::Lines, Some(&[0, 1]));
+        axes[0].draw(None);
 
         GREEN.bind(2);
-        frame.draw_idx(Topology::Lines, Some(&[0, 2]));
+        axes[1].draw(None);
 
         BLUE.bind(2);
-        frame.draw_idx(Topology::Lines, Some(&[0, 3]));
+        axes[2].draw(None);
 
         window.swap();
         window.delay(1);
