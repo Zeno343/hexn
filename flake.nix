@@ -31,8 +31,6 @@
     };
 
     metaData = with pkgs; rec {
-      pname = "hexen";
-      version = "v0.0.1";
       src = craneLib.path ./.;
       cargoTestExtraArgs = "--all-features";
 
