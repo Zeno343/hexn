@@ -30,7 +30,7 @@
       nativeBuildInputs = [ cmake pkg-config ];
     };
 
-    hexen = with pkgs; craneLib.buildPackage rec {
+    metaData = with pkgs; rec {
       pname = "hexen";
       version = "v0.0.1";
       src = craneLib.path ./.;
@@ -50,6 +50,11 @@
         smartRelease
       ];
     };
+
+    hexenDeps = craneLib.buildDepsOnly metaData;
+    hexen = craneLib.buildPackage (metaData // {
+      cargoArtifacts = hexenDeps;
+    });
   in {
     packages.${system}.default = hexen;
 
