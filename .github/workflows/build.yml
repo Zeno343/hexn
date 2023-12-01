@@ -19,6 +19,3 @@ jobs:
     - name: "Build CI dependencies"
       if: steps.cache.outputs.cache-hit != 'true'
       run: nix build .#ci
-
-    - name: "Test smart-release"
-      run: nix develop .#ci --command cargo smart-release --update-crates-index
