@@ -1,0 +1,29 @@
+name: "Build From Flake"
+on:
+  push:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: "Install Nix"
+      uses: nixbuild/nix-quick-install-action@v26
+
+    - name: "Restore/Cache Nix Store"
+      id: cache
+      uses: nix-community/cache-nix-action@v3
+      with:
+        key: cache-${{ runner.os }}-${{ hashFiles('flake.lock') }}
+
+    - name: "Build CI dependencies"
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: nix build .#ci
+
+    - name: "Test cargo-smart-release install"
+      run: |
+        git config user.name "zeno"
+        git config user.email "zacheryklinglesmith@gmail.com"
+        nix develop .#ci --command cargo smart-release --update-crates-index
