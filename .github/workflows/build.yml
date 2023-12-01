@@ -20,3 +20,6 @@ jobs:
     - name: "Build CI dependencies"
       if: steps.cache.outputs.cache-hit != 'true'
       run: nix build .#ci
+
+    - name: "Test cargo smart-release"
+      run: cargo smart-release
