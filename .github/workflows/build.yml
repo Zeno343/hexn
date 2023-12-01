@@ -17,7 +17,9 @@ jobs:
       uses: nix-community/cache-nix-action@v3
       with:
         key: cache-${{ runner.os }}-${{ hashFiles('flake.lock') }}
-        restore-keys: cache-${{ runner.os }}-
+        restore-keys: |
+          cache-${{ runner.os }}-${{ hashFiles('flake.lock') }}
+          cache-${{ runner.os }}-*
 
     - name: "Build CI dependencies"
       if: steps.cache.outputs.cache-hit != 'true'
