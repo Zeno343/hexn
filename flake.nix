@@ -48,7 +48,8 @@
         nativeBuildInputs = [ cmake pkg-config ];
       };
     in crane.buildDepsOnly (hexenSrc // {
-      cargoArtifacts = [ hexenDeps smartRelease ];
+      cargoArtifacts = hexenDeps;
+      nativeBuildInputs = [ smartRelease ];
     });
 
 
