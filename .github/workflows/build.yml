@@ -5,7 +5,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
 
     - name: "Install Nix"
       uses: nixbuild/nix-quick-install-action@v26
@@ -19,3 +21,6 @@ jobs:
     - name: "Build CI dependencies"
       if: steps.cache.outputs.cache-hit != 'true'
       run: nix build .#ci
+
+    - name: "Test cargo-smart-release install"
+      run: nix develop .#ci --command cargo smart-release --update-crates-index
