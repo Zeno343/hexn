@@ -6,15 +6,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+
+    - uses: cachix/install-nix-action@v22
+      with:
+        github_access_token: ${{ secrets.GITHUB_TOKEN }}
+
     - uses: actions/cache@v3
       id: cache
       with:
           path: /nix/store/
           key: ${{ runner.os }}-${{ hashFiles('flake.lock') }}
 
-    - uses: cachix/install-nix-action@v22
-      with:
-        github_access_token: ${{ secrets.GITHUB_TOKEN }}
     - name: "Build CI dependencies"
       if: ${{ steps.cache.outputs.cache-hit != 'true' }}
       run: nix build .#ci
