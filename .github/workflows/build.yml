@@ -7,15 +7,14 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - uses: actions/cache@v3
-      id: cache
-      with:
-          path: /nix/store
-          key: ${{ runner.os }}-${{ hashFiles('flake.lock') }}
-
     - name: "Install Nix"
-      if: steps.cache.outputs.cache-hit != 'true'
       uses: nixbuild/nix-quick-install-action@v26
+
+    - name: "Restore/Cache Nix Store"
+      id: cache
+      uses: nix-community/cache-nix-action@v3
+      with:
+        key: cache-${{ runner.os }}-${{ hashFiles('flake.lok') }}
 
     - name: "Build CI dependencies"
       if: steps.cache.outputs.cache-hit != 'true'
