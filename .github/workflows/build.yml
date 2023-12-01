@@ -21,4 +21,4 @@ jobs:
       run: nix build .#ci
 
     - name: "Test cargo smart-release"
-      run: cargo smart-release
+      run: nix develop --comand cargo smart-release
