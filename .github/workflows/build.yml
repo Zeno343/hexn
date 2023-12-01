@@ -23,4 +23,7 @@ jobs:
       run: nix build .#ci
 
     - name: "Test cargo-smart-release install"
-      run: nix develop .#ci --command cargo smart-release --update-crates-index
+      run: |
+        git config user.name "zeno"
+        git.config user.email "zacheryklinglesmith@gmail.com"
+        nix develop .#ci --command cargo smart-release --update-crates-index
