@@ -21,4 +21,4 @@ jobs:
       run: nix build .#ci
 
     - name: "Test smart-release"
-      run: nix develop .#ci --command cargo smart-release
+      run: nix develop .#ci --command cargo smart-release --update-crates-index
