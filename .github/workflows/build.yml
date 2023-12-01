@@ -7,16 +7,15 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - uses: cachix/install-nix-action@v22
-      with:
-        github_access_token: ${{ secrets.GITHUB_TOKEN }}
+    - name: "Install Nix"
+      uses: nixbuild/nix-quick-install-action@v26
 
     - uses: actions/cache@v3
       id: cache
       with:
-          path: /nix/store/
+          path: /nix/store
           key: ${{ runner.os }}-${{ hashFiles('flake.lock') }}
 
     - name: "Build CI dependencies"
-      if: ${{ steps.cache.outputs.cache-hit != 'true' }}
+      if: steps.cache.outputs.cache-hit != 'true'
       run: nix build .#ci
