@@ -1,5 +1,5 @@
 [package]
-name = "hex_win"
+name = "hex_io"
 version = "0.0.1"
 description = "Window library for hexen"
 authors = [ "Zeno <zacheryklinglesmith@gmail.com" ]

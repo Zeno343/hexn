@@ -3,7 +3,7 @@
 
 extern crate alloc;
 extern crate hex_math as math;
-extern crate hex_win as win;
+extern crate hex_io as io;
 
 pub mod buffer;
 pub mod mesh;
@@ -18,7 +18,7 @@ pub trait Draw {
     fn clear_color(&self, rgba: [f32; 4]);
 }
 
-impl Draw for win::Window {
+impl Draw for io::Window {
     fn clear_color(&self, [r, g, b, a]: [f32; 4]) {
         unsafe {
             glClearColor(r, g, b, a);

@@ -14,7 +14,7 @@ mod no_std;
 extern crate alloc;
 extern crate hex_gfx as gfx;
 extern crate hex_math as math;
-extern crate hex_win as win;
+extern crate hex_io as io;
 
 #[cfg(not(feature = "std"))]
 use {alloc::vec::Vec, math::num::Real};
@@ -29,7 +29,7 @@ use {
         matrix::{look_at, orthographic, perspective},
         vector::R3,
     },
-    win::{
+    io::{
         event::{KeyCode, WindowEvent},
         time, Window,
     },

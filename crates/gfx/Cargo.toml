@@ -7,7 +7,7 @@ repository = "https://github.com/Zeno343/hexen.git"
 license = "MIT"
 
 [dependencies]
-hex_win = { path = "../win", version = "^0.0.1" }
+hex_io = { path = "../io", version = "^0.0.1" }
 hex_math = { path = "../math", version = "^0.0.1" }
 
 [build-dependencies]
