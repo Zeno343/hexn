@@ -2,8 +2,8 @@
 #![feature(core_intrinsics)]
 
 extern crate alloc;
-extern crate hex_math as math;
 extern crate hex_io as io;
+extern crate hex_math as math;
 
 pub mod buffer;
 pub mod mesh;

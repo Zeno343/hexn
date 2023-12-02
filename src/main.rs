@@ -13,14 +13,18 @@ mod no_std;
 #[cfg(not(feature = "std"))]
 extern crate alloc;
 extern crate hex_gfx as gfx;
-extern crate hex_math as math;
 extern crate hex_io as io;
+extern crate hex_math as math;
 
 #[cfg(not(feature = "std"))]
 use {alloc::vec::Vec, math::num::Real};
 use {
     const_format::formatcp,
     gfx::{glsl, mesh::Mesh, program::Program, uniform::Uniform, Draw},
+    io::{
+        event::{KeyCode, WindowEvent},
+        time, Window,
+    },
     math::{
         constants::{
             pos::{ORIGIN, X, Y, Z},
@@ -29,10 +33,6 @@ use {
         geometry::Primitive as GeoPrim,
         matrix::{look_at, orthographic, perspective},
         vector::R3,
-    },
-    io::{
-        event::{KeyCode, WindowEvent},
-        time, Window,
     },
 };
 
