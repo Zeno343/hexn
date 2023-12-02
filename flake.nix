@@ -11,31 +11,31 @@
   outputs = { self, nixpkgs, craneLib, rust-overlay }:
   let 
     system = "x86_64-linux";
+    crane = (craneLib.mkLib pkgs).overrideToolchain pkgs.rust-bin.nightly.latest.default;
     pkgs = import nixpkgs {
       inherit system;
       overlays = [ (import rust-overlay) ];
     };
 
-    crane = (craneLib.mkLib pkgs).overrideToolchain pkgs.rust-bin.nightly.latest.default;
-    hexenSrc = with pkgs; rec {
-      src = crane.path ./.;
-      cargoTestExtraArgs = "--all-features";
+    hexen = let
+      src = with pkgs; rec {
+        src = crane.path ./.;
+        cargoTestExtraArgs = "--all-features";
 
-      LIBCLANG_PATH = "${llvmPackages_15.libclang.lib}/lib";
-      BINDGEN_EXTRA_CLANG_ARGS =
-        (builtins.map (lib: ''-I"${lib.dev}/include"'') buildInputs);
+        LIBCLANG_PATH = "${llvmPackages_15.libclang.lib}/lib";
+        BINDGEN_EXTRA_CLANG_ARGS =
+          (builtins.map (lib: ''-I"${lib.dev}/include"'') buildInputs);
 
-      buildInputs = [
-        SDL2
-        libGL
-      ];
-      nativeBuildInputs = [
-        pkg-config
-        llvmPackages_15.libcxxClang
-      ];
-    };
+        buildInputs = [
+          SDL2
+          libGL
+        ];
+        nativeBuildInputs = [
+          pkg-config
+          llvmPackages_15.libcxxClang
+        ];
+      };
 
-    ci = let
       smartRelease = with pkgs; crane.buildPackage {
         src = fetchFromGitHub {
           owner = "Byron";
@@ -47,25 +47,23 @@
         buildInputs = [ openssl ];
         nativeBuildInputs = [ cmake pkg-config ];
       };
-    in crane.buildDepsOnly (hexenSrc // {
-      cargoArtifacts = hexenDeps;
-      nativeBuildInputs = [ smartRelease ];
-    });
+    in rec {
+      deps = crane.buildDepsOnly src;
 
+      release = crane.buildPackage (src // {
+        cargoArtifacts = deps;
+      });
 
-    hexenDeps = crane.buildDepsOnly hexenSrc;
-    hexen = crane.buildPackage (hexenSrc // {
-      cargoArtifacts = hexenDeps;
-    });
+      dev = crane.devShell (src // {
+        cargoArtifacts = deps;
+        packages = [ smartRelease ];
+      });
+    };
   in {
     packages.${system} = {
-      default = hexen;
-      inherit ci;
+      default = hexen.release;
     };
 
-    devShells.${system}.default = crane.devShell (hexenSrc // {
-      name = "hexen-ci";
-      cargoArtifacts = ci;
-    });
+    devShells.${system}.default = hexen.dev;
   };
 }
