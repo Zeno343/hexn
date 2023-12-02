@@ -1,10 +1,13 @@
 [package]
-name = "hexen"
-description = "A demo engine in Rust"
+name = "hexn"
 version = "0.0.1"
-authors = [ "Zeno <zacheryklinglesmith@gmail.com" ]
-repository = "https://github.com/Zeno343/hexen.git"
+
+description = "A demo engine in Rust"
+authors = [ "Zeno343 <zacheryklinglesmith@gmail.com" ]
 license = "MIT"
+
+repository = "https://github.com/Zeno343/hexen.git"
+edition = "2021"
 
 [dependencies]
 hex_io = { path = "crates/io", version = "^0.0.1" }
@@ -13,7 +16,6 @@ hex_math = { path = "crates/math", version = "^0.0.1" }
 
 [workspace]
 members = [ "crates/math", "crates/gfx", "crates/io" ]
-resolver = "2"
 
 [features]
 std = []

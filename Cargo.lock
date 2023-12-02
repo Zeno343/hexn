@@ -109,7 +109,7 @@ name = "hex_math"
 version = "0.0.1"
 
 [[package]]
-name = "hexen"
+name = "hexn"
 version = "0.0.1"
 dependencies = [
  "hex_gfx",
