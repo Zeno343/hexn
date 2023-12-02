@@ -13,6 +13,7 @@ edition = "2021"
 hex_io = { path = "crates/io", version = "^0.0.1" }
 hex_gfx = { path = "crates/gfx", version = "^0.0.1" }
 hex_math = { path = "crates/math", version = "^0.0.1" }
+const_format = "^0.2.32"
 
 [workspace]
 members = [ "crates/math", "crates/gfx", "crates/io" ]

@@ -19,6 +19,7 @@ extern crate hex_io as io;
 #[cfg(not(feature = "std"))]
 use {alloc::vec::Vec, math::num::Real};
 use {
+    const_format::formatcp,
     gfx::{glsl, mesh::Mesh, program::Program, uniform::Uniform, Draw},
     math::{
         constants::{
@@ -35,8 +36,11 @@ use {
     },
 };
 
+const NAME: &str = env!("CARGO_BIN_NAME");
+const VERSION: &str = env!("CARGO_PKG_VERSION");
+
 const WINDOW_RES: [i32; 2] = [800, 600];
-const WINDOW_NAME: &str = "hexen v0.0.1\0";
+const WINDOW_NAME: &str = formatcp!("{} v{}\0", NAME, VERSION);
 
 const MVP: &str = glsl!("shaders/mvp.vert");
 const RGB: &str = glsl!("shaders/rgb_uniform.frag");
@@ -47,7 +51,7 @@ const PITCH: f32 = 30.0 * PI / 180.0;
 #[cfg_attr(not(feature = "std"), no_mangle)]
 fn main() {
     #[cfg(feature = "std")]
-    println!("hexen v0.0.1");
+    println!("{} v{}", NAME, VERSION);
     let window = Window::new(WINDOW_NAME, WINDOW_RES).expect("window creation failed");
     let shader = Program::new(MVP, RGB).unwrap();
 
