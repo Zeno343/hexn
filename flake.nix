@@ -56,12 +56,14 @@
 
       dev = crane.devShell (src // {
         cargoArtifacts = deps;
+        inputsFrom = [ src ];
         packages = [ smartRelease ];
       });
     };
   in {
     packages.${system} = {
       default = hexen.release;
+      dev = hexen.dev;
     };
 
     devShells.${system}.default = hexen.dev;
