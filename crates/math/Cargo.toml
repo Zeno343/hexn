@@ -1,7 +1,7 @@
 [package]
 name = "hex_math"
 version = "0.0.1"
-description = "Math for hexen"
-authors = [ "Zeno <zacheryklinglesmith@gmail.com" ]
-repository = "https://github.com/Zeno343/hexen.git"
+description = "Math for hexn"
+authors = [ "Zeno343 <zacheryklinglesmith@gmail.com" ]
+repository = "https://github.com/Zeno343/hexn.git"
 license = "MIT"

@@ -1,9 +1,9 @@
 [package]
 name = "hex_gfx"
-description = "Graphics for hexen"
+description = "Graphics for hexn"
 version = "0.0.1"
-authors = [ "Zeno <zacheryklinglesmith@gmail.com" ]
-repository = "https://github.com/Zeno343/hexen.git"
+authors = [ "Zeno343 <zacheryklinglesmith@gmail.com" ]
+repository = "https://github.com/Zeno343/hexn.git"
 license = "MIT"
 
 [dependencies]

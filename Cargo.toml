@@ -6,7 +6,7 @@ description = "A demo engine in Rust"
 authors = [ "Zeno343 <zacheryklinglesmith@gmail.com" ]
 license = "MIT"
 
-repository = "https://github.com/Zeno343/hexen.git"
+repository = "https://github.com/Zeno343/hexn.git"
 edition = "2021"
 
 [dependencies]
